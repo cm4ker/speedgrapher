@@ -26,7 +26,10 @@ namespace Speedgrapher.Tools;
 /// </summary>
 public static class SeoTool
 {
-    private static readonly HttpClient _httpClient = new();
+    private static readonly HttpClient _httpClient = new()
+    {
+        Timeout = TimeSpan.FromSeconds(30)
+    };
 
     /// <summary>
     /// Audits a webpage URL or raw HTML content for technical SEO best practices.
@@ -222,8 +225,7 @@ public static class SeoTool
         {
             foreach (var img in imgNodes)
             {
-                var alt = img.GetAttributeValue("alt", string.Empty);
-                if (string.IsNullOrWhiteSpace(alt) || !img.Attributes.Contains("alt"))
+                if (!img.Attributes.Contains("alt") || string.IsNullOrWhiteSpace(img.GetAttributeValue("alt", string.Empty)))
                 {
                     missingAlt++;
                 }
@@ -337,7 +339,6 @@ public class SeoCheck
     public string Name { get; set; } = string.Empty;
     public string Status { get; set; } = string.Empty; // "pass", "fail", "warning"
     public string Description { get; set; } = string.Empty;
-    public int ScoreImpact { get; set; }
 }
 
 /// <summary>
