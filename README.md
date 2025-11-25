@@ -4,7 +4,11 @@
 
 > This is not an officially supported Google product.
 
-Speedgrapher is a local MCP server written in Go, designed to assist writers by providing a suite of tools to streamline the writing process.
+Speedgrapher is a local MCP server designed to assist writers by providing a suite of tools to streamline the writing process.
+
+**Available Implementations:**
+- **Go** - The original implementation in the root directory
+- **C# (.NET)** - A port in the `dotnet/` directory (see [dotnet/README.md](dotnet/README.md))
 
 ## What is it?
 
@@ -12,11 +16,13 @@ Speedgrapher is an MCP server designed to assist professional writers, with a pa
 
 ## How it works
 
-Speedgrapher is written in Go and implements the Model Context Protocol (MCP). It uses the [official Go SDK for MCP](https://github.com/modelcontextprotocol/go-sdk) and communicates over the `stdio` transport layer. This design choice makes it a lightweight and secure local server, with no need for network deployment.
+Speedgrapher implements the Model Context Protocol (MCP). The Go version uses the [official Go SDK for MCP](https://github.com/modelcontextprotocol/go-sdk) and the .NET version uses the [official C# SDK for MCP](https://github.com/modelcontextprotocol/csharp-sdk). Both communicate over the `stdio` transport layer. This design choice makes it a lightweight and secure local server, with no need for network deployment.
 
 ## Installation
 
-### Gemini CLI (Extension)
+### Go Version
+
+#### Gemini CLI (Extension)
 
 Clone and install the extension:
 
@@ -25,7 +31,7 @@ git clone https://github.com/danicat/speedgrapher.git && cd speedgrapher
 make extension
 ```
 
-### Gemini CLI (MCP Server)
+#### Gemini CLI (MCP Server)
 
 Clone and install the binary:
 
@@ -42,6 +48,34 @@ Add this configuration to your `.gemini/settings.json`:
     "mcpServers": {
         "speedgrapher": {
             "command": "speedgrapher"
+        }
+    }
+}
+```
+
+### .NET Version
+
+#### Requirements
+
+- .NET 8.0 SDK or later
+
+#### Build and Run
+
+```sh
+git clone https://github.com/danicat/speedgrapher.git && cd speedgrapher
+cd dotnet
+dotnet build
+dotnet run --project Speedgrapher
+```
+
+Add this configuration to your MCP client (e.g., `.gemini/settings.json`):
+
+```json
+{
+    "mcpServers": {
+        "speedgrapher": {
+            "command": "dotnet",
+            "args": ["run", "--project", "/path/to/speedgrapher/dotnet/Speedgrapher"]
         }
     }
 }
@@ -64,6 +98,18 @@ The tool returns not only the numerical Fog Index but also a qualitative classif
 *   **General Audiences:** (Score 9-12) - Clear and accessible for most readers.
 *   **Simplistic:** (Score < 9) - May be perceived as childish or overly simple.
 
+### SEO Audit
+
+The `audit_seo` tool audits a webpage URL or raw HTML content for technical SEO best practices. It checks:
+
+*   **Title tag** - Presence and optimal length (30-60 characters), keyword optimization
+*   **Meta description** - Presence and optimal length (120-160 characters), keyword optimization
+*   **H1 tag** - Presence and uniqueness, keyword optimization
+*   **Image alt text** - Presence of alt attributes on images
+*   **Links** - Presence of links on the page
+*   **Content length** - Minimum word count (300+ words recommended)
+*   **Canonical tag** - Presence of canonical URL
+
 ## Available Prompts
 
 Speedgrapher's functionality is exposed through a series of prompts, which can be used as slash commands in a compatible client.
@@ -80,6 +126,7 @@ Speedgrapher's functionality is exposed through a series of prompts, which can b
 | `/readability` | Analyzes the last generated text for readability using the Gunning Fog Index. | `/readability` |
 | `/reflect` | Analyzes the current session and proposes improvements to the development process. | `/reflect` |
 | `/review` | Reviews the article currently being worked on against the editorial guidelines. | `/review` |
+| `/seo` | Analyzes a URL or the current text for SEO best practices. | `/seo url="https://example.com" keyword="cloud computing"` |
 | `/voice` | Analyzes the voice and tone of the user's writing to replicate it in generated text. | `/voice hint="~/Documents/my-articles"` |
 
 ## Example Editorial Workflow
