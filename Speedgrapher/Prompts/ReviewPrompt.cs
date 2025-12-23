@@ -21,6 +21,7 @@ namespace Speedgrapher.Prompts;
 /// <summary>
 /// Review prompt handler.
 /// </summary>
+[McpServerPromptType]
 public static class ReviewPrompt
 {
     private const string DefaultReviewText = @"

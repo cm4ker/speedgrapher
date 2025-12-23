@@ -21,6 +21,7 @@ namespace Speedgrapher.Prompts;
 /// <summary>
 /// Expand prompt handler.
 /// </summary>
+[McpServerPromptType]
 public static class ExpandPrompt
 {
     private const string ExpandText = @"Act as an expert technical writer. I need you to expand the work-in-progress article currently in your context into a comprehensive, helpful article that aligns with our ""cozy web"" editorial guidelines.

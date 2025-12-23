@@ -21,6 +21,7 @@ namespace Speedgrapher.Prompts;
 /// <summary>
 /// Interview prompt handler.
 /// </summary>
+[McpServerPromptType]
 public static class InterviewPrompt
 {
     private const string InterviewText = @"Act as an expert interviewer for a technical blog. I would like to write an article with your support.

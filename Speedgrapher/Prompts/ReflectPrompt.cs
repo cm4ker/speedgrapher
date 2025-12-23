@@ -21,6 +21,7 @@ namespace Speedgrapher.Prompts;
 /// <summary>
 /// Reflect prompt handler.
 /// </summary>
+[McpServerPromptType]
 public static class ReflectPrompt
 {
     private const string ReflectionText = @"**Objective: Session Reflection and Process Improvement**

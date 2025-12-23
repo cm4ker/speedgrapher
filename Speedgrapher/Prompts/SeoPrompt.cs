@@ -21,6 +21,7 @@ namespace Speedgrapher.Prompts;
 /// <summary>
 /// SEO prompt handler.
 /// </summary>
+[McpServerPromptType]
 public static class SeoPrompt
 {
     private const string SeoText = @"**Objective: SEO Audit**

@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Reflection;
 using Speedgrapher.Tools;
 
 namespace Speedgrapher.Tests;
@@ -147,6 +148,8 @@ public class FogToolTests
         var json = ((ModelContextProtocol.Protocol.TextContentBlock)callResult.Content[0]).Text;
         var result = System.Text.Json.JsonSerializer.Deserialize<FogResult>(json);
         
+        Assert.NotNull(result);
+
         Assert.Equal(3.6, result.FogIndex);
         Assert.Equal(FogTool.FogCategorySimplistic, result.Classification);
         Assert.Equal(9, result.TotalWords);

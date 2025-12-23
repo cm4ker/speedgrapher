@@ -21,6 +21,7 @@ namespace Speedgrapher.Prompts;
 /// <summary>
 /// Localize prompt handler.
 /// </summary>
+[McpServerPromptType]
 public static class LocalizePrompt
 {
     private const string DefaultLocalizeText = @"

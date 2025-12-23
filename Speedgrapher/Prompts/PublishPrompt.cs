@@ -21,6 +21,7 @@ namespace Speedgrapher.Prompts;
 /// <summary>
 /// Publish prompt handler.
 /// </summary>
+[McpServerPromptType]
 public static class PublishPrompt
 {
     private const string PublishText = @"Act as an expert technical editor. The work-in-progress article currently in your context is ready to be published. Please initiate the publishing process.

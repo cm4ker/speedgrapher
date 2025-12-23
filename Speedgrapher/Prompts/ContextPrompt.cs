@@ -21,6 +21,7 @@ namespace Speedgrapher.Prompts;
 /// <summary>
 /// Context prompt handler.
 /// </summary>
+[McpServerPromptType]
 public static class ContextPrompt
 {
     [McpServerPrompt(Name = "context"), Description("Loads the current work-in-progress article to context for further commands.")]

@@ -21,6 +21,7 @@ namespace Speedgrapher.Prompts;
 /// <summary>
 /// Voice prompt handler.
 /// </summary>
+[McpServerPromptType]
 public static class VoicePrompt
 {
     [McpServerPrompt(Name = "voice"), Description("Analyzes the voice and tone of the user's writing to replicate it in generated text.")]

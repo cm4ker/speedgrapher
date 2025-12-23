@@ -21,6 +21,7 @@ namespace Speedgrapher.Prompts;
 /// <summary>
 /// Outline prompt handler.
 /// </summary>
+[McpServerPromptType]
 public static class OutlinePrompt
 {
     private const string OutlineText = @"Act as an expert technical writer. Please generate a structured outline for the work-in-progress article currently in your context.

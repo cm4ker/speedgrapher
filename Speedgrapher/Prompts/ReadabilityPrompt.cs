@@ -21,6 +21,7 @@ namespace Speedgrapher.Prompts;
 /// <summary>
 /// Readability prompt handler.
 /// </summary>
+[McpServerPromptType]
 public static class ReadabilityPrompt
 {
     private const string ReadabilityText = @"**Objective: Evaluate Readability**
