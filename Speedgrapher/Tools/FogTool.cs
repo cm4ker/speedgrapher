@@ -40,7 +40,7 @@ public partial class FogTool
     /// </summary>
     /// <param name="text">The text to analyze for readability. Must contain at least one sentence.</param>
     /// <returns>A FogResult containing the fog index, classification, and detailed statistics.</returns>
-    [McpServerTool(Name = "fog"), Description("Calculates the Gunning Fog Index to estimate the readability of an English text. Lower scores indicate easier reading.")]
+    [McpServerTool(Name = "fog"), Description("Calculates the Gunning Fog Index to estimate readability. Supports English and Russian text. Lower scores indicate easier reading.")]
     public CallToolResult CalculateFog(
         [Description("The text to analyze for readability. Must contain at least one sentence.")] string text)
     {
@@ -191,7 +191,7 @@ public partial class FogTool
     [GeneratedRegex(@"[\p{P}]")]
     private static partial Regex PunctuationRegex();
 
-    [GeneratedRegex(@"[.!?]+")]
+    [GeneratedRegex(@"[.!?…]+")]
     private static partial Regex SentenceEndingRegex();
 
     [GeneratedRegex("[aeiouyаеёиоуыэюя]+")]

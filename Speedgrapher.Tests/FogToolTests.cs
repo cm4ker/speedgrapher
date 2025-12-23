@@ -46,6 +46,15 @@ public class FogToolTests
     }
 
     [Theory]
+    [InlineData("Привет… Как дела? Всё хорошо!", 3)]
+    [InlineData("Это предложение без знаков окончания", 0)]
+    public void CountSentences_SupportsRussianAndEllipsis(string text, int expected)
+    {
+        var count = FogTool.CountSentences(text);
+        Assert.Equal(expected, count);
+    }
+
+    [Theory]
     [InlineData("complex", false)]
     [InlineData("sentence", true)]
     [InlineData("difficult", true)]
@@ -137,6 +146,21 @@ public class FogToolTests
         Assert.Equal(4.0, result.AverageSentenceLength);
         Assert.Equal(37.5, result.PercentageComplexWords);
         Assert.Equal(3, result.ComplexWords);
+    }
+
+    [Fact]
+    public void CalculateFog_RussianText_Works()
+    {
+        var text = "Это простое предложение. И это тоже.";
+        var result = FogTool.CalculateFogInternal(text);
+
+        Assert.Equal(14.53, result.FogIndex);
+        Assert.Equal(FogTool.FogCategoryProfessional, result.Classification);
+        Assert.Equal(6, result.TotalWords);
+        Assert.Equal(2, result.TotalSentences);
+        Assert.Equal(3.0, result.AverageSentenceLength);
+        Assert.Equal(33.33, result.PercentageComplexWords);
+        Assert.Equal(2, result.ComplexWords);
     }
 
     [Fact]
