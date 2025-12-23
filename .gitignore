@@ -1,2 +1,8 @@
 bin/
-.gemini
+obj/
+.vs/
+*.user
+*.suo
+*.cache
+.idea/
+*.DotSettings.user
