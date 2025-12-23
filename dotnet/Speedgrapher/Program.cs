@@ -14,7 +14,10 @@
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
+using System.Text.Json;
 using Speedgrapher.Prompts;
 using Speedgrapher.Tools;
 
@@ -65,11 +68,13 @@ LocalizePrompt.SetGuidelinePath(localizationGuidelines);
 // Build and run the MCP server
 var builder = Microsoft.Extensions.Hosting.Host.CreateApplicationBuilder(args);
 
+builder.Logging.AddConsole(options => options.LogToStandardErrorThreshold = LogLevel.Trace);
+
 builder.Services
     .AddMcpServer()
     .WithStdioServerTransport()
-    .WithToolsFromAssembly(typeof(FogTool).Assembly)
-    .WithPromptsFromAssembly(typeof(HaikuPrompt).Assembly);
+    .WithToolsFromAssembly(typeof(Program).Assembly)
+    .WithPromptsFromAssembly(typeof(Program).Assembly);
 
 var host = builder.Build();
 await host.RunAsync();

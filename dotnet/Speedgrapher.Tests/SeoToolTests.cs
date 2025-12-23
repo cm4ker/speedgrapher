@@ -54,7 +54,7 @@ public class SeoToolTests
     </body>
 </html>";
 
-        var result = await SeoTool.AuditSeo(html: html, keyword: "keyword");
+        var result = await SeoTool.AuditSeoInternal(html: html, keyword: "keyword");
 
         Assert.Equal(100, result.Score);
         Assert.Equal("Perfect SEO Title Example For Testing Keyword", result.Title);
@@ -74,7 +74,7 @@ public class SeoToolTests
     </body>
 </html>";
 
-        var result = await SeoTool.AuditSeo(html: html, keyword: "missing");
+        var result = await SeoTool.AuditSeoInternal(html: html, keyword: "missing");
 
         Assert.True(result.Score < 100);
         Assert.Contains(result.Checks, c => c.Name == "Title Tag" && c.Status != "pass");
@@ -107,6 +107,6 @@ This is the body content.
     [Fact]
     public async Task AuditSeo_WithoutUrlOrHtml_ThrowsException()
     {
-        await Assert.ThrowsAsync<ArgumentException>(() => SeoTool.AuditSeo());
+        await Assert.ThrowsAsync<ArgumentException>(() => SeoTool.AuditSeoInternal());
     }
 }

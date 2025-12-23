@@ -13,8 +13,10 @@
 // limitations under the License.
 
 using System.ComponentModel;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 using ModelContextProtocol.Server;
+using ModelContextProtocol.Protocol;
 
 namespace Speedgrapher.Tools;
 
@@ -23,7 +25,8 @@ namespace Speedgrapher.Tools;
 /// The Gunning Fog Index is a readability test that estimates the years of formal
 /// education a person needs to understand a text on the first reading.
 /// </summary>
-public static partial class FogTool
+[McpServerToolType]
+public partial class FogTool
 {
     public const string FogCategoryUnreadable = "Unreadable: Likely incomprehensible to most readers.";
     public const string FogCategoryHardToRead = "Hard to Read: Requires significant effort, even for experts.";
@@ -38,8 +41,18 @@ public static partial class FogTool
     /// <param name="text">The text to analyze for readability. Must contain at least one sentence.</param>
     /// <returns>A FogResult containing the fog index, classification, and detailed statistics.</returns>
     [McpServerTool(Name = "fog"), Description("Calculates the Gunning Fog Index to estimate the readability of an English text. Lower scores indicate easier reading.")]
-    public static FogResult CalculateFog(
+    public CallToolResult CalculateFog(
         [Description("The text to analyze for readability. Must contain at least one sentence.")] string text)
+    {
+        var result = CalculateFogInternal(text);
+        var json = JsonSerializer.Serialize(result);
+        return new CallToolResult { Content = new List<ContentBlock> { new TextContentBlock { Text = json } } };
+    }
+
+    /// <summary>
+    /// Internal method for calculating Fog Index.
+    /// </summary>
+    public static FogResult CalculateFogInternal(string text)
     {
         if (string.IsNullOrWhiteSpace(text))
         {

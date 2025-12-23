@@ -21,6 +21,7 @@ namespace Speedgrapher.Prompts;
 /// <summary>
 /// Haiku prompt handler.
 /// </summary>
+[McpServerPromptType]
 public static class HaikuPrompt
 {
     [McpServerPrompt(Name = "haiku"), Description("Creates a haiku about a given topic, or infers the topic from the current conversation.")]

@@ -127,7 +127,7 @@ public class FogToolTests
     public void CalculateFog_ReturnsValidResult()
     {
         var text = "This is a sentence. This is another sentence.";
-        var result = FogTool.CalculateFog(text);
+        var result = FogTool.CalculateFogInternal(text);
         
         Assert.Equal(16.6, result.FogIndex);
         Assert.Equal(FogTool.FogCategoryProfessional, result.Classification);
@@ -142,7 +142,10 @@ public class FogToolTests
     public void CalculateFog_WikipediaExample()
     {
         var text = "The quick brown fox jumps over the lazy dog.";
-        var result = FogTool.CalculateFog(text);
+        var tool = new FogTool();
+        var callResult = tool.CalculateFog(text);
+        var json = ((ModelContextProtocol.Protocol.TextContentBlock)callResult.Content[0]).Text;
+        var result = System.Text.Json.JsonSerializer.Deserialize<FogResult>(json);
         
         Assert.Equal(3.6, result.FogIndex);
         Assert.Equal(FogTool.FogCategorySimplistic, result.Classification);

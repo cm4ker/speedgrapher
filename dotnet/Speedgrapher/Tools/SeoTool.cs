@@ -13,9 +13,11 @@
 // limitations under the License.
 
 using System.ComponentModel;
+using System.Text.Json;
 using HtmlAgilityPack;
 using Markdig;
 using ModelContextProtocol.Server;
+using ModelContextProtocol.Protocol;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
@@ -24,7 +26,8 @@ namespace Speedgrapher.Tools;
 /// <summary>
 /// Provides SEO auditing functionality for webpages and HTML content.
 /// </summary>
-public static class SeoTool
+[McpServerToolType]
+public class SeoTool
 {
     private static readonly HttpClient _httpClient = new()
     {
@@ -39,10 +42,20 @@ public static class SeoTool
     /// <param name="keyword">The target keyword to check for optimization in the title, description, and headings.</param>
     /// <returns>An SEO audit result with score and detailed checks.</returns>
     [McpServerTool(Name = "audit_seo"), Description("Audits a webpage URL or raw HTML content for technical SEO best practices, checking title, meta description, headings, and more.")]
-    public static async Task<SeoResult> AuditSeo(
+    public async Task<CallToolResult> AuditSeo(
         [Description("The full URL of the webpage to audit. Either 'url' or 'html' must be provided.")] string? url = null,
         [Description("The raw HTML content to audit. Use this if the content is not yet published. Supports Hugo Markdown with Front Matter.")] string? html = null,
         [Description("The target keyword to check for optimization in the title, description, and headings.")] string? keyword = null)
+    {
+        var result = await AuditSeoInternal(url, html, keyword);
+        var json = JsonSerializer.Serialize(result);
+        return new CallToolResult { Content = new List<ContentBlock> { new TextContentBlock { Text = json } } };
+    }
+
+    /// <summary>
+    /// Internal method for auditing SEO.
+    /// </summary>
+    public static async Task<SeoResult> AuditSeoInternal(string? url = null, string? html = null, string? keyword = null)
     {
         HtmlDocument doc;
 
