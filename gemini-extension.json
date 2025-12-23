@@ -4,7 +4,12 @@
   "description": "A local MCP server for writers to streamline the writing process.",
   "mcpServers": {
     "speedgrapher": {
-      "command": "${extensionPath}/bin/speedgrapher"
+      "command": "dotnet",
+      "args": [
+        "run",
+        "--project",
+        "${extensionPath}/Speedgrapher/Speedgrapher.csproj"
+      ]
     }
   }
 }

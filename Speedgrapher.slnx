@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="Speedgrapher\Speedgrapher.csproj" />
+  <Project Path="Speedgrapher.Tests\Speedgrapher.Tests.csproj" />
+</Solution>

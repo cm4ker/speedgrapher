@@ -12,40 +12,37 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package prompts
+using System.ComponentModel;
+using ModelContextProtocol.Protocol;
+using ModelContextProtocol.Server;
 
-import (
-	"context"
+namespace Speedgrapher.Prompts;
 
-	"github.com/modelcontextprotocol/go-sdk/mcp"
-)
-
-const publishPrompt = `Act as an expert technical editor. The work-in-progress article currently in your context is ready to be published. Please initiate the publishing process.
+/// <summary>
+/// Publish prompt handler.
+/// </summary>
+[McpServerPromptType]
+public static class PublishPrompt
+{
+    private const string PublishText = @"Act as an expert technical editor. The work-in-progress article currently in your context is ready to be published. Please initiate the publishing process.
 
 **Your Task:**
 1.  **Determine Workflow:** Inspect the project's 'README.md' or other documentation to identify the established publishing or deployment workflow.
 2.  **Create a Plan:** Based on your findings, create a step-by-step plan to publish the article. This often involves git operations (add, commit, push).
 3.  **Seek Confirmation:** Present this plan to me and ask for explicit confirmation before executing any of the steps, especially those that modify the remote repository.
 
-Please proceed with determining the workflow and creating the plan.
-`
+Please proceed with determining the workflow and creating the plan.";
 
-func Publish() *mcp.Prompt {
-	return &mcp.Prompt{
-		Name:        "publish",
-		Description: "Publishes the final version of the article.",
-	}
-}
-
-func PublishHandler(ctx context.Context, req *mcp.GetPromptRequest) (*mcp.GetPromptResult, error) {
-	return &mcp.GetPromptResult{
-		Messages: []*mcp.PromptMessage{
-			{
-				Role: "user",
-				Content: &mcp.TextContent{
-					Text: publishPrompt,
-				},
-			},
-		},
-	}, nil
+    [McpServerPrompt(Name = "publish"), Description("Publishes the final version of the article.")]
+    public static IList<PromptMessage> GetPublish()
+    {
+        return
+        [
+            new()
+            {
+                Role = Role.User,
+                Content = new TextContentBlock { Text = PublishText }
+            }
+        ];
+    }
 }

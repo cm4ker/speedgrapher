@@ -12,16 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package prompts
+using System.ComponentModel;
+using ModelContextProtocol.Protocol;
+using ModelContextProtocol.Server;
 
-import (
-	"context"
+namespace Speedgrapher.Prompts;
 
-	"github.com/modelcontextprotocol/go-sdk/mcp"
-)
-
-const interviewPrompt = `Act as an expert interviewer for a technical blog. I would like to write an article with your support.
-Your mission is to interview me to gather material for a technical article that aligns with our "cozy web" editorial guidelines. The resulting article should be helpful, relatable, and have a clear narrative thread.
+/// <summary>
+/// Interview prompt handler.
+/// </summary>
+[McpServerPromptType]
+public static class InterviewPrompt
+{
+    private const string InterviewText = @"Act as an expert interviewer for a technical blog. I would like to write an article with your support.
+Your mission is to interview me to gather material for a technical article that aligns with our ""cozy web"" editorial guidelines. The resulting article should be helpful, relatable, and have a clear narrative thread.
 
 Your process is to have a natural, yet structured, conversation to gather information. At the end of the interview, you will be asked to provide the full transcript of the interview, which will be saved to a file named INTERVIEW.md.
 
@@ -45,9 +49,9 @@ Your goal is to have a natural, in-depth conversation. Use the Open-Focused-Clos
 
 **2. Conducting the Interview (Open-Focused-Closed Model):**
 - **One Question at a Time:** You must ONLY ask one question per turn. Wait for my response.
-- **Open:** Start topics broadly (e.g., "What was the initial problem you were trying to solve?").
-- **Focused:** Drill down into details, specifically asking for technical artifacts (e.g., "Do you have the exact error message you saw?" or "Can you share the code snippet that finally worked?").
-- **Closed:** Confirm understanding (e.g., "So, the fix was upgrading to v2.1?").
+- **Open:** Start topics broadly (e.g., ""What was the initial problem you were trying to solve?"").
+- **Focused:** Drill down into details, specifically asking for technical artifacts (e.g., ""Do you have the exact error message you saw?"" or ""Can you share the code snippet that finally worked?"").
+- **Closed:** Confirm understanding (e.g., ""So, the fix was upgrading to v2.1?"").
 
 **3. Exploring Topics in Depth:**
 - Ensure you have enough detail to write a full section before moving on.
@@ -56,28 +60,21 @@ Your goal is to have a natural, in-depth conversation. Use the Open-Focused-Clos
 - Do not record the interview during the conversation. You will be asked to provide the full transcript at the end.
 
 **5. Ending the Interview:**
-- **Important:** I can stop the interview at any time by simply saying "stop" or by issuing a new command.
+- **Important:** I can stop the interview at any time by simply saying ""stop"" or by issuing a new command.
 - If interrupted, acknowledge the request and confirm the interview is complete.
 
-Please ask me the first question to get started.
-`
+Please ask me the first question to get started.";
 
-func Interview() *mcp.Prompt {
-	return &mcp.Prompt{
-		Name:        "interview",
-		Description: "Interviews an author to produce a technical blog post.",
-	}
-}
-
-func InterviewHandler(ctx context.Context, req *mcp.GetPromptRequest) (*mcp.GetPromptResult, error) {
-	return &mcp.GetPromptResult{
-		Messages: []*mcp.PromptMessage{
-			{
-				Role: "user",
-				Content: &mcp.TextContent{
-					Text: interviewPrompt,
-				},
-			},
-		},
-	}, nil
+    [McpServerPrompt(Name = "interview"), Description("Interviews an author to produce a technical blog post.")]
+    public static IList<PromptMessage> GetInterview()
+    {
+        return
+        [
+            new()
+            {
+                Role = Role.User,
+                Content = new TextContentBlock { Text = InterviewText }
+            }
+        ];
+    }
 }

@@ -12,15 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package prompts
+using System.ComponentModel;
+using ModelContextProtocol.Protocol;
+using ModelContextProtocol.Server;
 
-import (
-	"context"
+namespace Speedgrapher.Prompts;
 
-	"github.com/modelcontextprotocol/go-sdk/mcp"
-)
-
-const reflectionPrompt = `**Objective: Session Reflection and Process Improvement**
+/// <summary>
+/// Reflect prompt handler.
+/// </summary>
+[McpServerPromptType]
+public static class ReflectPrompt
+{
+    private const string ReflectionText = @"**Objective: Session Reflection and Process Improvement**
 
 Your goal is to analyze the complete transcript of the current interactive session to identify key learnings and propose concrete improvements for future collaboration. This is a self-improvement exercise to make our pairing sessions more efficient, accurate, and effective.
 
@@ -58,24 +62,18 @@ Please structure your reflection in the following format:
     *   **Observation:** [Description and examples.]
     *   **Future Action:** [Proposed improvement.]
 
-*(Continue for all major learnings identified.)*`
+*(Continue for all major learnings identified.)*";
 
-func Reflect() *mcp.Prompt {
-	return &mcp.Prompt{
-		Name:        "reflect",
-		Description: "Analyzes the current session and proposes improvements to the development process.",
-	}
-}
-
-func ReflectHandler(ctx context.Context, req *mcp.GetPromptRequest) (*mcp.GetPromptResult, error) {
-	return &mcp.GetPromptResult{
-		Messages: []*mcp.PromptMessage{
-			{
-				Role: "assistant",
-				Content: &mcp.TextContent{
-					Text: reflectionPrompt,
-				},
-			},
-		},
-	}, nil
+    [McpServerPrompt(Name = "reflect"), Description("Analyzes the current session and proposes improvements to the development process.")]
+    public static IList<PromptMessage> GetReflect()
+    {
+        return
+        [
+            new()
+            {
+                Role = Role.Assistant,
+                Content = new TextContentBlock { Text = ReflectionText }
+            }
+        ];
+    }
 }
