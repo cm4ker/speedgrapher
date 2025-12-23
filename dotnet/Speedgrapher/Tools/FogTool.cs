@@ -194,7 +194,7 @@ public partial class FogTool
     [GeneratedRegex(@"[.!?]+")]
     private static partial Regex SentenceEndingRegex();
 
-    [GeneratedRegex("[aeiouy]+")]
+    [GeneratedRegex("[aeiouyаеёиоуыэюя]+")]
     private static partial Regex VowelGroupRegex();
 }
 
