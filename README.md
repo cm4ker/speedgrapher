@@ -130,7 +130,9 @@ To use this server with an MCP client, add the following configuration:
 
 ## Publishing to NuGet
 
-To publish Speedgrapher as a NuGet package, you need to:
+### Manual Publishing
+
+To publish Speedgrapher as a NuGet package manually, you need to:
 
 1. **Create a NuGet API key** at [nuget.org](https://www.nuget.org/)
 
@@ -141,10 +143,30 @@ To publish Speedgrapher as a NuGet package, you need to:
 
 3. **Publish to NuGet**:
    ```bash
-   dotnet nuget push bin/Release/Speedgrapher.*.nupkg --api-key YOUR_API_KEY --source https://api.nuget.org/v3/index.json
+   dotnet nuget push bin/Release/Speedgrapher.*.nupkg --api-key <YOUR_API_KEY> --source https://api.nuget.org/v3/index.json
    ```
 
 4. **For local testing** before publishing:
    ```bash
    dotnet tool install -g --add-source ./bin/Release Speedgrapher
    ```
+
+### Automated Publishing via GitHub Actions
+
+The repository includes a GitHub Actions workflow that automatically publishes to NuGet when a new release is created:
+
+1. **Setup NuGet API Key**:
+   - Go to [nuget.org](https://www.nuget.org/) and create an API key with push permissions
+   - In your GitHub repository, go to Settings → Secrets and variables → Actions
+   - Create a new secret named `NUGET_API_KEY` with your NuGet API key
+
+2. **Create a Release**:
+   - Go to your GitHub repository's Releases page
+   - Click "Create a new release"
+   - Create a new tag (e.g., `v1.0.0`)
+   - Publish the release
+   - The workflow will automatically build, test, pack, and publish to NuGet
+
+3. **Manual Workflow Trigger** (optional):
+   - You can also manually trigger the publish workflow from the Actions tab
+   - Go to Actions → Publish to NuGet → Run workflow
