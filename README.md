@@ -6,17 +6,47 @@
 
 Speedgrapher is a local MCP (Model Context Protocol) server designed to assist writers, especially in the tech industry. It provides a suite of tools and resources to streamline the writing process, from research and drafting to editing and publishing.
 
+**Note**: This is a C# port of the original Go implementation. The original repository can be found at [github.com/danicat/speedgrapher](https://github.com/danicat/speedgrapher).
+
 ## Requirements
 
 - .NET 10.0 SDK or later
 
-## Building
+## Installation
+
+### As a .NET Global Tool
+
+You can install Speedgrapher as a global .NET tool:
 
 ```bash
+dotnet tool install -g Speedgrapher
+```
+
+After installation, you can run it directly:
+
+```bash
+speedgrapher
+```
+
+### From Source
+
+Clone the repository and build from source:
+
+```bash
+git clone https://github.com/cm4ker/speedgrapher.git
+cd speedgrapher
 dotnet build
 ```
 
 ## Running
+
+### If installed as a global tool:
+
+```bash
+speedgrapher
+```
+
+### From source:
 
 ```bash
 cd Speedgrapher
@@ -73,6 +103,20 @@ dotnet test
 
 To use this server with an MCP client, add the following configuration:
 
+### If installed as a global tool:
+
+```json
+{
+  "mcpServers": {
+    "speedgrapher": {
+      "command": "speedgrapher"
+    }
+  }
+}
+```
+
+### If running from source:
+
 ```json
 {
   "mcpServers": {
@@ -83,3 +127,24 @@ To use this server with an MCP client, add the following configuration:
   }
 }
 ```
+
+## Publishing to NuGet
+
+To publish Speedgrapher as a NuGet package, you need to:
+
+1. **Create a NuGet API key** at [nuget.org](https://www.nuget.org/)
+
+2. **Build the package**:
+   ```bash
+   dotnet pack -c Release
+   ```
+
+3. **Publish to NuGet**:
+   ```bash
+   dotnet nuget push bin/Release/Speedgrapher.*.nupkg --api-key YOUR_API_KEY --source https://api.nuget.org/v3/index.json
+   ```
+
+4. **For local testing** before publishing:
+   ```bash
+   dotnet tool install -g --add-source ./bin/Release Speedgrapher
+   ```

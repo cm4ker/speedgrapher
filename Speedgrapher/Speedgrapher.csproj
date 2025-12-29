@@ -5,12 +5,28 @@
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    
+    <!-- .NET Tool Configuration -->
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>speedgrapher</ToolCommandName>
+    <PackageId>Speedgrapher</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>cm4ker</Authors>
+    <Company>cm4ker</Company>
+    <Description>Speedgrapher is a local MCP (Model Context Protocol) server designed to assist writers, especially in the tech industry.</Description>
+    <PackageTags>mcp;writing;ai;tool</PackageTags>
+    <PackageProjectUrl>https://github.com/cm4ker/speedgrapher</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/cm4ker/speedgrapher</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>
     <None Update="appsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="../README.md" Pack="true" PackagePath="/"/>
   </ItemGroup>
 
   <ItemGroup>
